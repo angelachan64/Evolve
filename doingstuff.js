@@ -9,3 +9,5 @@ var drag = function() {
     ctx.arc(x,y,50,0,2*Math.PI);
     ctx.fill();
 };
+
+document.addEventListener("click",drag);
