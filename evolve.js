@@ -60,9 +60,29 @@ function setup(){
 var xcor = 250;
 var ycor = 450;
 
+var r = c.getBoundingClientRect();
+
+//makes amoeba wiggle 
 function wiggle(e){
     e.preventDefault();
     ctx.fillStyle = ("#000060");
+    if (xcor <= r.left + 5){
+	xcor += 2;
+	ycor += Math.random(2);
+    } else if (xcor >= r.right - 5){
+	xcor -= 2;
+	ycor += Math.random(2);
+    } else if (ycor <= r.bottom + 5){
+	xcor += Math.random(2);
+	ycor += 2;
+    } else if (ycor >= r.top - 5){
+	xcor += Math.random(2);
+	ycor -= 2;
+    } else {
+	//still need to make it include negative numbers
+	xcor += Math.random(2);
+	ycor += Math.random(2);
+    }
     ctx.arc(xcor, ycor, 10, 0, 2*Math.PI);
     ctx.fill();
 };
