@@ -8,6 +8,9 @@ var health = 200; var points = 0;
 var start = document.getElementById("start");
 var anim;
 var progress;
+var ep = 100;
+var evopoints = "" + ep + " evolution points";
+
 
 function updateH(){
     /* UPDATE HEALTH */
@@ -20,6 +23,13 @@ function updateP(){
     /* UPDATE PROGRESS */
     ctx.strokeRect(10,35,202,15);
     ctx.fillRect(11,36,points,13);
+}
+
+function updateEP(){
+    ctx.clearRect(10,60,480,15);
+    ctx.fillStyle = "#262626";
+    ctx.font = "15px century gothic"
+    ctx.fillText(evopoints, 10, 75);
 }
 
 function setup(){
@@ -44,16 +54,35 @@ function setup(){
     ctx.fillStyle = "#B20000";
     ctx.fillRect(11, 11, health, 13);
     ctx.strokeRect(10,35,202,15);
+    
+    /* points */
+    ctx.beginPath();
+    ctx.font = "15px century gothic";
+    ctx.fillStyle = "#262626";
+    ctx.fillText(evopoints, 10, 75);
+    ctx.closePath();
         
     /* buttons */
     tree.src = "/img/tree.png";
     rock.src = "/img/rock.png";
     bush.src = "/img/berry.png";
+    tree.onload = function(){
+        ctx.drawImage(tree, 510, 240);
+    };
+    rock.onload = function(){
+        ctx.drawImage(rock, 510, 145);
+    }
     bush.onload = function(){
-        ctx.drawImage(tree, 510, 10);
-        ctx.drawImage(rock, 620, 43);
-        ctx.drawImage(bush, 510, 120);
+        ctx.drawImage(bush, 510, 10);
     };  
+    
+    /* prices */
+    ctx.beginPath();
+    ctx.font="30px century gothic";
+    ctx.fillText("50 EP", 620, 75);
+    ctx.fillText("100 EP", 620, 185);
+    ctx.fillText("150 EP", 620, 295);
+    ctx.closePath();
 }
 
 
@@ -69,33 +98,12 @@ function wiggle(e){
 
 window.onload = setup();
 
-c.addEventListener("mousedown", function(){
-  var x = event.x;
-  var y = event.y;
-  
-  var rect = c.getBoundingClientRect();
 
-  x -= rect.left;
-  y -= rect.top;
-  
-  //console.log("" + x + ", " + y);
-  
-  if(x>=510 && x<=610){
-      if(y>=10 && y<=110){
-          console.log("tree!");
-      } else if(y>=120 && y<=220){
-          console.log("bush!");
-      }
-  } else if(x>=620 && x<=720){
-      if(y>=10 && y<=110){
-          console.log("rock!");
-      }
-  }
-}, false);
 
 start.addEventListener("click", function(){
     console.log("start");
     
+    /*
     anim = setInterval(function(){
         ctx.fillStyle = "#B20000";
         ctx.clearRect(10,10,202,15);
@@ -120,7 +128,7 @@ start.addEventListener("click", function(){
             points = 0;
             console.log("level up");
             size++;
-            /* update survivor */
+            //update survivor
             ctx.fillStyle = "#8C3449";
             ctx.arc(250, 430, size, 0, 2*Math.PI);
             ctx.fill();
@@ -131,4 +139,45 @@ start.addEventListener("click", function(){
         }
         updateP();
     }, 50);
+    */
+    
+    c.addEventListener("mousedown", function(){
+        var x = event.x;
+        var y = event.y;
+    
+        var rect = c.getBoundingClientRect();
+    
+        x -= rect.left;
+        y -= rect.top;
+      
+        //console.log("" + x + ", " + y);
+      
+        if(x>=510 && x<=610){
+            if(y>=10 && y<=110){
+                console.log("bush!");
+                if(ep >= 50){
+                    ep -= 50;
+                    evopoints = "" + ep + " evolution points";
+                    updateEP();
+                    x = Math.floor((Math.random() * 500) + 1);
+                    while((x>=220 && x<=280) || x>=484 || x<=15){
+                        x = Math.floor((Math.random() * 500) + 1);
+                    }
+                    y = 430;
+                    console.log("" + x + ", " + y);
+                    ctx.fillStyle = "#89D862";
+                    ctx.beginPath();
+                    ctx.arc(x,y,16,0,2*Math.PI);
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            } else if(y>=120 && y<=220){
+                console.log("tree!");
+
+            } else if(y>=240 && y<=310){
+                console.log("rock!");
+            }
+        }
+    }, false);
+    
 })
