@@ -18,6 +18,7 @@ var protection = false;
 
 function updateH(){
     /* UPDATE HEALTH */
+    ctx.fillStyle = "#B20000";
     ctx.strokeRect(10, 10, 202, 15);
     ctx.fillRect(11, 11, health, 13);
 
@@ -101,20 +102,19 @@ function wiggle(e){
     ctx.fillStyle = ("#000060");
     if (xcor <= r.left + 5){
 	xcor += 2;
-	ycor += Math.random(2);
+	ycor += (Math.random(3) - Math.random(3));
     } else if (xcor >= r.right - 5){
 	xcor -= 2;
-	ycor += Math.random(2);
+	ycor += (Math.random(3)- Math.random(3));
     } else if (ycor <= r.bottom + 5){
-	xcor += Math.random(2);
+	xcor += (Math.random(3)- Math.random(3));
 	ycor += 2;
     } else if (ycor >= r.top - 5){
-	xcor += Math.random(2);
+	xcor += (Math.random(3)- Math.random(3));
 	ycor -= 2;
     } else {
-	//still need to make it include negative numbers
-	xcor += Math.random(2);
-	ycor += Math.random(2);
+	xcor += (Math.random(3)- Math.random(3));
+	ycor += (Math.random(3)- Math.random(3));
     }
     ctx.arc(xcor, ycor, 10, 0, 2*Math.PI);
     ctx.fill();
@@ -127,12 +127,19 @@ window.onload = setup();
 start.addEventListener("click", function(){
     console.log("start");
     
-    /*
     anim = setInterval(function(){
         ctx.fillStyle = "#B20000";
         ctx.clearRect(10,10,202,15);
-        if(health>0){
+        if(health>0 && health<=200){
             health = health - 1;
+        }
+        if((health+numb)>200){
+            health = 200;
+            ep += (health + numb - 1) - 200;
+            evopoints = "" + ep + " evolution points";
+            updateEP();
+        } else{
+            health += numb;
         }
         updateH();
         
@@ -141,7 +148,6 @@ start.addEventListener("click", function(){
             console.log("died");
         }
     }, 200);
-    */
     
     progress = setInterval(function(){
         ctx.fillStyle = "#41B43E";
@@ -185,10 +191,15 @@ start.addEventListener("click", function(){
                     ep -= 50;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
+<<<<<<< HEAD
                     protection = true;
                     x = Math.floor((Math.random() * 484) + 15);
+=======
+                    numb++;
+                    x = Math.floor((Math.random() * 470) + 15);
+>>>>>>> 6ff2b9bddc382db470ec7a63bc125f7e35eb8b29
                     while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 484) + 15);
+                        x = Math.floor((Math.random() * 470) + 15);
                     }
                     y = 430;
                     console.log("" + x + ", " + y);
