@@ -8,6 +8,7 @@ var health = 200; var points = 0;
 var start = document.getElementById("start");
 var anim;
 var progress;
+var chance;
 var ep = 100;
 var evopoints = "" + ep + " evolution points";
 var numb = 0;
@@ -171,6 +172,15 @@ start.addEventListener("click", function(){
         updateP();
     }, 50);
     
+    chance = setInterval(function(){
+        if(Math.random()*100 <= 20){
+            console.log("event!");
+            ctx.fillStyle = "#262626";
+            ctx.font = "15px century gothic";
+            ctx.fillText("There's a huge flood!", 510, 380);
+            
+        }
+    }, 1000);
     
     c.addEventListener("mousedown", function(){
         var x = event.x;
