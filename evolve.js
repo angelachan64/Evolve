@@ -148,11 +148,12 @@ start.addEventListener("click", function(){
         if(health==0){
             clearInterval(progress);
         }
-        if(points==200){
+        if(points>=200){
             points = 0;
             console.log("level up");
             size++;
             //update survivor
+            ctx.beginPath();
             ctx.fillStyle = "#8C3449";
             ctx.arc(250, 430, size, 0, 2*Math.PI);
             ctx.fill();
