@@ -10,6 +10,9 @@ var anim;
 var progress;
 var ep = 100;
 var evopoints = "" + ep + " evolution points";
+var numb = 0;
+var numt = 0;
+var numr = 0;
 
 
 function updateH(){
@@ -137,6 +140,7 @@ start.addEventListener("click", function(){
             console.log("died");
         }
     }, 200);
+    */
     
     progress = setInterval(function(){
         ctx.fillStyle = "#41B43E";
@@ -155,11 +159,11 @@ start.addEventListener("click", function(){
             ctx.closePath();
         }
         if(points<200){
-            points++;
+            points+=numb*0.5;
         }
         updateP();
     }, 50);
-    */
+    
     
     c.addEventListener("mousedown", function(){
         var x = event.x;
@@ -179,9 +183,10 @@ start.addEventListener("click", function(){
                     ep -= 50;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-                    x = Math.floor((Math.random() * 500) + 1);
-                    while((x>=220 && x<=280) || x>=484 || x<=15){
-                        x = Math.floor((Math.random() * 500) + 1);
+                    numb++;
+                    x = Math.floor((Math.random() * 484) + 15);
+                    while((x>=220 && x<=280)){
+                        x = Math.floor((Math.random() * 484) + 15);
                     }
                     y = 430;
                     console.log("" + x + ", " + y);
@@ -193,6 +198,13 @@ start.addEventListener("click", function(){
                 }
             } else if(y>=120 && y<=220){
                 console.log("tree!");
+                if(ep>=100){
+                    ep -= 100;
+                    evopoints = "" + ep + " evolution points";
+                    updateEP();
+                    numt++;
+                    x = Math.floor((Math.random() * 484) + 15);
+                }
 
             } else if(y>=240 && y<=310){
                 console.log("rock!");
