@@ -35,7 +35,7 @@ function updateP(){
 function updateEP(){
     ctx.clearRect(10,60,480,15);
     ctx.fillStyle = "#262626";
-    ctx.font = "15px century gothic";
+    ctx.font = "15px century gothic"
     ctx.fillText(evopoints, 10, 75);
 }
 
@@ -178,6 +178,7 @@ start.addEventListener("click", function(){
             ctx.arc(250, 430, size, 0, 2*Math.PI);
             ctx.fill();
             ctx.closePath();
+	    health += 10
         }
         if(points<200){
             points+=numb*0.5;
@@ -223,8 +224,8 @@ start.addEventListener("click", function(){
     }, 1000);
     
     c.addEventListener("mousedown", function(){
-        x = event.x;
-        y = event.y;
+        var x = event.x;
+        var y = event.y;
     
         var rect = c.getBoundingClientRect();
     
@@ -240,7 +241,7 @@ start.addEventListener("click", function(){
                     ep -= 50;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-                    numb++;
+		    numb++;
                     x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 470) + 15);
@@ -259,8 +260,8 @@ start.addEventListener("click", function(){
                     ep -= 100;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-                    protection = true;
-		            x = Math.floor((Math.random() * 470) + 15);
+		    protection = true;
+		    x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 470) + 15);
                     }
@@ -278,7 +279,7 @@ start.addEventListener("click", function(){
                     ep -= 150;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-		            trees++;
+		    trees++;
 		    x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 470) + 15);
