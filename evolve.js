@@ -14,6 +14,7 @@ var evopoints = "" + ep + " evolution points";
 var numb = 0;
 var numt = 0;
 var numr = 0;
+var protection = false;
 
 
 function updateH(){
@@ -200,8 +201,13 @@ start.addEventListener("click", function(){
                     ep -= 50;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
+<<<<<<< HEAD
+                    protection = true;
+                    x = Math.floor((Math.random() * 484) + 15);
+=======
                     numb++;
                     x = Math.floor((Math.random() * 470) + 15);
+>>>>>>> 6ff2b9bddc382db470ec7a63bc125f7e35eb8b29
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 470) + 15);
                     }
@@ -214,20 +220,43 @@ start.addEventListener("click", function(){
                     ctx.closePath();
                 }
             } else if(y>=120 && y<=220){
-                console.log("tree!");
+                console.log("rock!");
                 if(ep>=100){
                     ep -= 100;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-                    numt++;
-                    x = Math.floor((Math.random() * 484) + 15);
-                    while((x>=220 && x<=280) || x%12!=0){
-                        
+		    x = Math.floor((Math.random() * 484) + 15);
+                    while((x>=220 && x<=280)){
+                        x = Math.floor((Math.random() * 484) + 15);
                     }
+                    y = 410;
+                    console.log("" + x + ", " + y);
+                    ctx.fillStyle = "#565F61";
+                    ctx.beginPath();
+                    ctx.rect(x,y,25,25);
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            } else if(y>=240 && y<=310){
+                console.log("tree!");
+		if(ep>=150){
+                    ep -= 150;
+                    evopoints = "" + ep + " evolution points";
+                    updateEP();
+                    numb++;
+		    x = Math.floor((Math.random() * 484) + 15);
+                    while((x>=220 && x<=280)){
+                        x = Math.floor((Math.random() * 484) + 15);
+                    }
+                    y = 410;
+                    console.log("" + x + ", " + y);
+                    ctx.fillStyle = "#00A130";
+                    ctx.beginPath();
+                    ctx.rect(x,y,25,25);
+                    ctx.fill();
+                    ctx.closePath();
                 }
 
-            } else if(y>=240 && y<=310){
-                console.log("rock!");
             }
         }
     }, false);
