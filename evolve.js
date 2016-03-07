@@ -22,7 +22,7 @@ var colors = ["#0000CC","#009900","#CCFF00","#FF6600","#FF0000"];
 var color;                                                                            
 
 function evolve(){
-    size += 5;
+    size++;
     stage++;
     color = colors[stage];
 };
@@ -32,7 +32,6 @@ function updateH(){
     ctx.fillStyle = "#B20000";
     ctx.strokeRect(10, 10, 202, 15);
     ctx.fillRect(11, 11, health, 13);
-
 }
 
 function updateP(){
@@ -116,12 +115,13 @@ function wiggle(e){
     } else if (xcor >= r.right - 5){
 	xcor -= 2;
 	ycor += (Math.random(3)- Math.random(3));
-    } else if (ycor <= r.bottom + 5){
+	/*    } else if (ycor <= r.bottom + 5){
 	xcor += (Math.random(3)- Math.random(3));
 	ycor += 2;
     } else if (ycor >= r.top - 5){
 	xcor += (Math.random(3)- Math.random(3));
 	ycor -= 2;
+	*/
     } else {
 	xcor += (Math.random(3)- Math.random(3));
 	ycor += (Math.random(3)- Math.random(3));
