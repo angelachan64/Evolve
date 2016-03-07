@@ -201,13 +201,9 @@ start.addEventListener("click", function(){
                     ep -= 50;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-<<<<<<< HEAD
                     protection = true;
-                    x = Math.floor((Math.random() * 484) + 15);
-=======
                     numb++;
                     x = Math.floor((Math.random() * 470) + 15);
->>>>>>> 6ff2b9bddc382db470ec7a63bc125f7e35eb8b29
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 470) + 15);
                     }
