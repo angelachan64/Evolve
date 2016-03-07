@@ -1,6 +1,5 @@
 var c = document.getElementById("area");
 var ctx = c.getContext("2d");
-var size = 4;
 var tree = new Image();
 var rock = new Image();
 var bush = new Image();
@@ -16,6 +15,17 @@ var numt = 0;
 var numr = 0;
 var protection = false;
 
+//amoeba properties                                                                                 
+var stage = 0;
+var size = 5;
+var colors = ["#0000CC","#009900","#CCFF00","#FF6600","#FF0000"];
+var color;                                                                            
+
+function evolve(){
+    size += 5;
+    stage++;
+    color = colors[stage];
+};
 
 function updateH(){
     /* UPDATE HEALTH */
@@ -50,7 +60,7 @@ function setup(){
     ctx.beginPath();
     
     /* survivor */
-    ctx.fillStyle = "#8C3449";
+    ctx.fillStyle = color;
     ctx.arc(250, 430, size, 0, 2*Math.PI);
     ctx.fill();
     ctx.closePath();
@@ -100,7 +110,6 @@ var r = c.getBoundingClientRect();
 //makes amoeba wiggle 
 function wiggle(e){
     e.preventDefault();
-    ctx.fillStyle = ("#000060");
     if (xcor <= r.left + 5){
 	xcor += 2;
 	ycor += (Math.random(3) - Math.random(3));
@@ -117,6 +126,7 @@ function wiggle(e){
 	xcor += (Math.random(3)- Math.random(3));
 	ycor += (Math.random(3)- Math.random(3));
     }
+    ctx.fillStyle = color;
     ctx.arc(xcor, ycor, 10, 0, 2*Math.PI);
     ctx.fill();
 };
@@ -159,10 +169,11 @@ start.addEventListener("click", function(){
         if(points>=200){
             points = 0;
             console.log("level up");
-            size++;
+	    //evolving!
+	    evolve();
             //update survivor
             ctx.beginPath();
-            ctx.fillStyle = "#8C3449";
+            ctx.fillStyle = color;
             ctx.arc(250, 430, size, 0, 2*Math.PI);
             ctx.fill();
             ctx.closePath();
