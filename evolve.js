@@ -1,5 +1,6 @@
 var c = document.getElementById("area");
 var ctx = c.getContext("2d");
+var size = 4;
 var tree = new Image();
 var rock = new Image();
 var bush = new Image();
@@ -16,22 +17,12 @@ var protection = false;
 var trees = 0;
 var prey = 0;
 
-//amoeba properties                                                                                 
-var stage = 0;
-var size = 5;
-var colors = ["#0000CC","#009900","#CCFF00","#FF6600","#FF0000"];
-var color;                                                                            
-
-function evolve(){
-    size++;
-    stage++;
-    color = colors[stage];
-};
 
 function updateH(){
     /* UPDATE HEALTH */
     ctx.strokeRect(10, 10, 202, 15);
     ctx.fillRect(11, 11, health, 13);
+
 }
 
 function updateP(){
@@ -59,7 +50,7 @@ function setup(){
     ctx.beginPath();
     
     /* survivor */
-    ctx.fillStyle = color;
+    ctx.fillStyle = "#8C3449";
     ctx.arc(250, 430, size, 0, 2*Math.PI);
     ctx.fill();
     ctx.closePath();
@@ -102,32 +93,31 @@ function setup(){
 
 
 var xcor = 250;
-var ycor = 450;
+var ycor = 430;
 
 var r = c.getBoundingClientRect();
 
 //makes amoeba wiggle 
 function wiggle(e){
     e.preventDefault();
+    ctx.fillStyle = ("#8C3449");
     if (xcor <= r.left + 5){
 	xcor += 2;
 	ycor += (Math.random(3) - Math.random(3));
     } else if (xcor >= r.right - 5){
 	xcor -= 2;
 	ycor += (Math.random(3)- Math.random(3));
-	/*    } else if (ycor <= r.bottom + 5){
+    } else if (ycor <= r.bottom + 5){
 	xcor += (Math.random(3)- Math.random(3));
 	ycor += 2;
     } else if (ycor >= r.top - 5){
 	xcor += (Math.random(3)- Math.random(3));
 	ycor -= 2;
-	*/
     } else {
 	xcor += (Math.random(3)- Math.random(3));
 	ycor += (Math.random(3)- Math.random(3));
     }
-    ctx.fillStyle = color;
-    ctx.arc(xcor, ycor, 10, 0, 2*Math.PI);
+    ctx.arc(xcor, ycor, size, 0, 2*Math.PI);
     ctx.fill();
 };
 
@@ -150,12 +140,12 @@ start.addEventListener("click", function(){
             clearInterval(anim);
             console.log("died");
         }
-	if (trees>=0) {
+	if (trees>0) {
 	    prey += Math.random(2) + trees;
 	    if (prey >= 15) {
-		x = Math.floor((Math.random() * 484) + 15);
+		x = Math.floor((Math.random() * 470) + 15);
 		while((x>=220 && x<=280)){
-                    x = Math.floor((Math.random() * 484) + 15);
+                    x = Math.floor((Math.random() * 470) + 15);
 		}
 		y = 430;
 		console.log("" + x + ", " + y);
@@ -178,11 +168,10 @@ start.addEventListener("click", function(){
         if(points>=200){
             points = 0;
             console.log("level up");
-	    //evolving!
-	    evolve();
+            size++;
             //update survivor
             ctx.beginPath();
-            ctx.fillStyle = color;
+            ctx.fillStyle = "#8C3449";
             ctx.arc(250, 430, size, 0, 2*Math.PI);
             ctx.fill();
             ctx.closePath();
@@ -191,6 +180,7 @@ start.addEventListener("click", function(){
             points+=numb*0.5;
         }
         updateP();
+	wiggle();
     }, 50);
     
     
@@ -213,9 +203,9 @@ start.addEventListener("click", function(){
                     evopoints = "" + ep + " evolution points";
                     updateEP();
 		    numb++;
-                    x = Math.floor((Math.random() * 484) + 15);
+                    x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 484) + 15);
+                        x = Math.floor((Math.random() * 470) + 15);
                     }
                     y = 430;
                     console.log("" + x + ", " + y);
@@ -232,9 +222,9 @@ start.addEventListener("click", function(){
                     evopoints = "" + ep + " evolution points";
                     updateEP();
 		    protection = true;
-		    x = Math.floor((Math.random() * 484) + 15);
+		    x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 484) + 15);
+                        x = Math.floor((Math.random() * 470) + 15);
                     }
                     y = 410;
                     console.log("" + x + ", " + y);
@@ -251,9 +241,9 @@ start.addEventListener("click", function(){
                     evopoints = "" + ep + " evolution points";
                     updateEP();
 		    trees++;
-		    x = Math.floor((Math.random() * 484) + 15);
+		    x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 484) + 15);
+                        x = Math.floor((Math.random() * 470) + 15);
                     }
                     y = 380;
                     console.log("" + x + ", " + y);
