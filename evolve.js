@@ -100,7 +100,6 @@ var r = c.getBoundingClientRect();
 
 //makes amoeba wiggle 
 function wiggle(e){
-    e.preventDefault();
     ctx.fillStyle = ("#8C3449");
     if (xcor <= r.left + 5){
 	xcor += 2;
@@ -142,6 +141,7 @@ start.addEventListener("click", function(){
         if (health==0){
             clearInterval(anim);
             console.log("died");
+            clearInterval(chance);
         }
 	if (trees>0) {
 	    prey += Math.random(2) + trees;
@@ -193,15 +193,31 @@ start.addEventListener("click", function(){
             ctx.fillRect(508,360,230,200);
             ctx.fillStyle = "#262626";
             ctx.font = "15px century gothic";
-            ctx.fillText("There's a huge flood!", 510, 380);
-            if(protection){
-                ctx.fillText("You hid under your rock and", 510, 400);
-                ctx.fillText("survived.", 510, 420);
+            if(Math.random()*100<=50){
+                ctx.fillText("There's a huge flood!", 510, 380);
+                if(protection){
+                    ctx.fillText("You hid under your rock and", 510, 400);
+                    ctx.fillText("survived.", 510, 420);
+                } else{
+                    clearInterval(anim);
+                    clearInterval(progress);
+                    clearInterval(chance);
+                    ctx.fillText("Sadly, you didn't have any", 510, 400);
+                    ctx.fillText("protection and you drowned.", 510, 420);
+                }
             } else{
-                clearInterval(anim);
-                clearInterval(progress);
-                ctx.fillText("Sadly, you didn't have any", 510, 400);
-                ctx.fillText("protection and you drowned.", 510, 420);
+                ctx.fillText("There's a huge thunderstorm!", 510, 380);
+                if(protection){
+                    ctx.fillText("You hid under your rock and", 510, 400);
+                    ctx.fillText("survived.", 510, 420);
+                } else{
+                    clearInterval(anim);
+                    clearInterval(progress);
+                    clearInterval(chance);
+                    ctx.fillText("Sadly, you didn't have any", 510, 400);
+                    ctx.fillText("protection and you got sick", 510, 420);
+                    ctx.fillText("and died", 510, 440);
+                }
             }
         }
     }, 1000);
