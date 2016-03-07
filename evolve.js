@@ -8,18 +8,18 @@ var health = 200; var points = 0;
 var start = document.getElementById("start");
 var anim;
 var progress;
-var chance;
-var ep = 100;
+var ep = 200;
 var evopoints = "" + ep + " evolution points";
 var numb = 0;
 var numt = 0;
 var numr = 0;
 var protection = false;
+var trees = 0;
+var prey = 0;
 
 
 function updateH(){
     /* UPDATE HEALTH */
-    ctx.fillStyle = "#B20000";
     ctx.strokeRect(10, 10, 202, 15);
     ctx.fillRect(11, 11, health, 13);
 
@@ -131,23 +131,32 @@ start.addEventListener("click", function(){
     anim = setInterval(function(){
         ctx.fillStyle = "#B20000";
         ctx.clearRect(10,10,202,15);
-        if(health>0 && health<=200){
+        if(health>0){
             health = health - 1;
-        }
-        if((health+numb)>200){
-            health = 200;
-            ep += (health + numb - 1) - 200;
-            evopoints = "" + ep + " evolution points";
-            updateEP();
-        } else{
-            health += numb;
         }
         updateH();
         
-        if(health==0){
+        if (health==0){
             clearInterval(anim);
             console.log("died");
         }
+	if (trees>=0) {
+	    prey += Math.random(2) + trees;
+	    if (prey >= 15) {
+		x = Math.floor((Math.random() * 484) + 15);
+		while((x>=220 && x<=280)){
+                    x = Math.floor((Math.random() * 484) + 15);
+		}
+		y = 430;
+		console.log("" + x + ", " + y);
+		ctx.fillStyle = "#8A00E6";
+                ctx.beginPath();
+                ctx.arc(x,y,size/2,0,2*Math.PI);
+                ctx.fill();
+                ctx.closePath();
+		prey = 0;
+	    }
+	}
     }, 200);
     
     progress = setInterval(function(){
@@ -173,15 +182,6 @@ start.addEventListener("click", function(){
         updateP();
     }, 50);
     
-    chance = setInterval(function(){
-        if(Math.random()*100 <= 20){
-            console.log("event!");
-            ctx.fillStyle = "#262626";
-            ctx.font = "15px century gothic";
-            ctx.fillText("There's a huge flood!", 510, 380);
-            
-        }
-    }, 1000);
     
     c.addEventListener("mousedown", function(){
         var x = event.x;
@@ -201,11 +201,10 @@ start.addEventListener("click", function(){
                     ep -= 50;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-                    protection = true;
-                    numb++;
-                    x = Math.floor((Math.random() * 470) + 15);
+		    numb++;
+                    x = Math.floor((Math.random() * 484) + 15);
                     while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 470) + 15);
+                        x = Math.floor((Math.random() * 484) + 15);
                     }
                     y = 430;
                     console.log("" + x + ", " + y);
@@ -221,6 +220,7 @@ start.addEventListener("click", function(){
                     ep -= 100;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
+		    protection = true;
 		    x = Math.floor((Math.random() * 484) + 15);
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 484) + 15);
@@ -239,20 +239,24 @@ start.addEventListener("click", function(){
                     ep -= 150;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-                    numb++;
+		    trees++;
 		    x = Math.floor((Math.random() * 484) + 15);
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 484) + 15);
                     }
-                    y = 410;
+                    y = 380;
                     console.log("" + x + ", " + y);
-                    ctx.fillStyle = "#00A130";
+                    ctx.fillStyle = "#663300";
                     ctx.beginPath();
-                    ctx.rect(x,y,25,25);
+                    ctx.rect(x,y,25,60);
+                    ctx.fill();
+                    ctx.closePath();
+		    ctx.fillStyle = "#89D862";
+                    ctx.beginPath();
+                    ctx.arc(x+12,y,25,0,2*Math.PI);
                     ctx.fill();
                     ctx.closePath();
                 }
-
             }
         }
     }, false);
