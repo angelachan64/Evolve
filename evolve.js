@@ -205,6 +205,9 @@ start.addEventListener("click", function(){
                     updateEP();
                     numt++;
                     x = Math.floor((Math.random() * 484) + 15);
+                    while((x>=220 && x<=280) || x%12!=0){
+                        
+                    }
                 }
 
             } else if(y>=240 && y<=310){
