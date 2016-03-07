@@ -17,6 +17,7 @@ var numr = 0;
 
 function updateH(){
     /* UPDATE HEALTH */
+    ctx.fillStyle = "#B20000";
     ctx.strokeRect(10, 10, 202, 15);
     ctx.fillRect(11, 11, health, 13);
 
@@ -126,12 +127,19 @@ window.onload = setup();
 start.addEventListener("click", function(){
     console.log("start");
     
-    /*
     anim = setInterval(function(){
         ctx.fillStyle = "#B20000";
         ctx.clearRect(10,10,202,15);
-        if(health>0){
+        if(health>0 && health<=200){
             health = health - 1;
+        }
+        if((health+numb)>200){
+            health = 200;
+            ep += (health + numb - 1) - 200;
+            evopoints = "" + ep + " evolution points";
+            updateEP();
+        } else{
+            health += numb;
         }
         updateH();
         
@@ -140,7 +148,6 @@ start.addEventListener("click", function(){
             console.log("died");
         }
     }, 200);
-    */
     
     progress = setInterval(function(){
         ctx.fillStyle = "#41B43E";
@@ -185,9 +192,9 @@ start.addEventListener("click", function(){
                     evopoints = "" + ep + " evolution points";
                     updateEP();
                     numb++;
-                    x = Math.floor((Math.random() * 484) + 15);
+                    x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 484) + 15);
+                        x = Math.floor((Math.random() * 470) + 15);
                     }
                     y = 430;
                     console.log("" + x + ", " + y);
