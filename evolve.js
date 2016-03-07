@@ -176,10 +176,20 @@ start.addEventListener("click", function(){
     chance = setInterval(function(){
         if(Math.random()*100 <= 20){
             console.log("event!");
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(508,360,230,200);
             ctx.fillStyle = "#262626";
             ctx.font = "15px century gothic";
             ctx.fillText("There's a huge flood!", 510, 380);
-            
+            if(protection){
+                ctx.fillText("You hid under your rock and", 510, 400);
+                ctx.fillText("survived.", 510, 420);
+            } else{
+                clearInterval(anim);
+                clearInterval(progress);
+                ctx.fillText("Sadly, you didn't have any", 510, 400);
+                ctx.fillText("protection and you drowned.", 510, 420);
+            }
         }
     }, 1000);
     
@@ -201,7 +211,6 @@ start.addEventListener("click", function(){
                     ep -= 50;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-                    protection = true;
                     numb++;
                     x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
@@ -221,9 +230,10 @@ start.addEventListener("click", function(){
                     ep -= 100;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-		    x = Math.floor((Math.random() * 484) + 15);
+                    protection = true;
+		            x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 484) + 15);
+                        x = Math.floor((Math.random() * 470) + 15);
                     }
                     y = 410;
                     console.log("" + x + ", " + y);
@@ -240,9 +250,9 @@ start.addEventListener("click", function(){
                     evopoints = "" + ep + " evolution points";
                     updateEP();
                     numb++;
-		    x = Math.floor((Math.random() * 484) + 15);
+		    x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 484) + 15);
+                        x = Math.floor((Math.random() * 470) + 15);
                     }
                     y = 410;
                     console.log("" + x + ", " + y);
