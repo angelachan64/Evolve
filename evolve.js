@@ -101,20 +101,19 @@ function wiggle(e){
     ctx.fillStyle = ("#000060");
     if (xcor <= r.left + 5){
 	xcor += 2;
-	ycor += Math.random(2);
+	ycor += (Math.random(3) - Math.random(3));
     } else if (xcor >= r.right - 5){
 	xcor -= 2;
-	ycor += Math.random(2);
+	ycor += (Math.random(3)- Math.random(3));
     } else if (ycor <= r.bottom + 5){
-	xcor += Math.random(2);
+	xcor += (Math.random(3)- Math.random(3));
 	ycor += 2;
     } else if (ycor >= r.top - 5){
-	xcor += Math.random(2);
+	xcor += (Math.random(3)- Math.random(3));
 	ycor -= 2;
     } else {
-	//still need to make it include negative numbers
-	xcor += Math.random(2);
-	ycor += Math.random(2);
+	xcor += (Math.random(3)- Math.random(3));
+	ycor += (Math.random(3)- Math.random(3));
     }
     ctx.arc(xcor, ycor, 10, 0, 2*Math.PI);
     ctx.fill();
