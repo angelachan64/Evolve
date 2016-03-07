@@ -66,9 +66,9 @@ function setup(){
     ctx.closePath();
         
     /* buttons */
-    tree.src = "/img/tree.png";
-    rock.src = "/img/rock.png";
-    bush.src = "/img/berry.png";
+    tree.src = "./img/tree.png";
+    rock.src = "./img/rock.png";
+    bush.src = "./img/berry.png";
     tree.onload = function(){
         ctx.drawImage(tree, 510, 240);
     };
