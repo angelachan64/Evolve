@@ -8,7 +8,7 @@ var health = 200; var points = 0;
 var start = document.getElementById("start");
 var anim;
 var progress;
-var chance
+var chance;
 var ep = 200;
 var evopoints = "" + ep + " evolution points";
 var numb = 0;
@@ -35,7 +35,7 @@ function updateP(){
 function updateEP(){
     ctx.clearRect(10,60,480,15);
     ctx.fillStyle = "#262626";
-    ctx.font = "15px century gothic"
+    ctx.font = "15px century gothic";
     ctx.fillText(evopoints, 10, 75);
 }
 
@@ -128,6 +128,8 @@ window.onload = setup();
 
 start.addEventListener("click", function(){
     console.log("start");
+    var x;
+    var y;
     
     anim = setInterval(function(){
         ctx.fillStyle = "#B20000";
@@ -205,8 +207,8 @@ start.addEventListener("click", function(){
     }, 1000);
     
     c.addEventListener("mousedown", function(){
-        var x = event.x;
-        var y = event.y;
+        x = event.x;
+        y = event.y;
     
         var rect = c.getBoundingClientRect();
     
