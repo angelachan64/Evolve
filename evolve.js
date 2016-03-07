@@ -8,7 +8,6 @@ var health = 200; var points = 0;
 var start = document.getElementById("start");
 var anim;
 var progress;
-var chance;
 var ep = 200;
 var evopoints = "" + ep + " evolution points";
 var numb = 0;
@@ -35,7 +34,7 @@ function updateP(){
 function updateEP(){
     ctx.clearRect(10,60,480,15);
     ctx.fillStyle = "#262626";
-    ctx.font = "15px century gothic";
+    ctx.font = "15px century gothic"
     ctx.fillText(evopoints, 10, 75);
 }
 
@@ -128,8 +127,6 @@ window.onload = setup();
 
 start.addEventListener("click", function(){
     console.log("start");
-    var x;
-    var y;
     
     anim = setInterval(function(){
         ctx.fillStyle = "#B20000";
@@ -178,6 +175,7 @@ start.addEventListener("click", function(){
             ctx.arc(250, 430, size, 0, 2*Math.PI);
             ctx.fill();
             ctx.closePath();
+	    health += 10
         }
         if(points<200){
             points+=numb*0.5;
@@ -186,29 +184,10 @@ start.addEventListener("click", function(){
 	wiggle();
     }, 50);
     
-    chance = setInterval(function(){
-        if(Math.random()*100 <= 20){
-            console.log("event!");
-            ctx.fillStyle = "#FFFFFF";
-            ctx.fillRect(508,360,230,200);
-            ctx.fillStyle = "#262626";
-            ctx.font = "15px century gothic";
-            ctx.fillText("There's a huge flood!", 510, 380);
-            if(protection){
-                ctx.fillText("You hid under your rock and", 510, 400);
-                ctx.fillText("survived.", 510, 420);
-            } else{
-                clearInterval(anim);
-                clearInterval(progress);
-                ctx.fillText("Sadly, you didn't have any", 510, 400);
-                ctx.fillText("protection and you drowned.", 510, 420);
-            }
-        }
-    }, 1000);
     
     c.addEventListener("mousedown", function(){
-        x = event.x;
-        y = event.y;
+        var x = event.x;
+        var y = event.y;
     
         var rect = c.getBoundingClientRect();
     
@@ -224,7 +203,7 @@ start.addEventListener("click", function(){
                     ep -= 50;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-                    numb++;
+		    numb++;
                     x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 470) + 15);
@@ -243,8 +222,8 @@ start.addEventListener("click", function(){
                     ep -= 100;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-                    protection = true;
-		            x = Math.floor((Math.random() * 470) + 15);
+		    protection = true;
+		    x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 470) + 15);
                     }
@@ -262,7 +241,7 @@ start.addEventListener("click", function(){
                     ep -= 150;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-		            trees++;
+		    trees++;
 		    x = Math.floor((Math.random() * 470) + 15);
                     while((x>=220 && x<=280)){
                         x = Math.floor((Math.random() * 470) + 15);
