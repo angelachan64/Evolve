@@ -421,7 +421,7 @@ window.onload = setup();
 
 /*                                                                          */
 /*                                                                          */
-/*                       _           _                                      */                    
+/*                       _           _                                      */                  
 /*                      | |         (_)                                     */
 /*                   ___| |__   ___  _  ___ ___  ___                        */
 /*                  / __| '_ \ / _ \| |/ __/ _ \/ __|                       */
@@ -463,7 +463,39 @@ function select() {
     }
 }
 
+//abilities, colors, and source files
+function choose(abOne, abTwo, colOne, colTwo, srcOne, srcTwo){
 
+    var x = event.x;
+    var y = event.y;
+    
+    var rect = c.getBoundingClientRect();
+        
+    x -= rect.left;
+    y -= rect.top;
+      
+    //console.log("" + x + ", " + y);
+          
+    if(y>=475 && y<=490){
+        if(x>=510 && x<=560){
+            abilities.push(abOne);
+            console.log(abOne);
+            color = colOne;
+            ctx.fillStyle="#FFFFFF";
+            ctx.fillRect(508,360,230,200);
+            survivor_medium.src = srcOne;
+            c.removeEventListener("mousedown", select, 200);
+        } else if(x>=590 && x<=628){
+            abilities.push(abTwo)
+            console.log(abTwo);
+            color=colTwo;
+            ctx.fillStyle="#FFFFFF";
+            ctx.fillRect(508,360,230,200);
+            survivor_medium.src = srcTwo;
+            c.removeEventListener("mousedown", select, 200);
+        }
+    }
+}
 
 function endgame(){
     
@@ -500,6 +532,58 @@ start.addEventListener("click", function(){
             console.log("died");
             clearInterval(chance);
         }
+        
+        if(size>=256){
+            ctx.fillStyle="#FFFFFF";
+	        ctx.fillRect(508,360,230,200);
+	        ctx.fillStyle="#000000";
+	        ctx.font="15px century gothic";
+    	    ctx.fillText("You have reached the", 510, 400);
+            ctx.fillText("next evolution stage", 510, 420);
+    	    ctx.fillText("Would you like to", 510, 440);
+            ctx.fillText("grow horns or a tail?", 510, 460);
+            ctx.fillText("HORNS       TAIL", 510, 490);
+        
+            c.addEventListener("mousedown", function(){
+                var x = event.x;
+                var y = event.y;
+    
+                var rect = c.getBoundingClientRect();
+        
+                x -= rect.left;
+                y -= rect.top;
+      
+                //console.log("" + x + ", " + y);
+          
+                if(y>=475 && y<=490){
+                    if(x>=510 && x<=560){
+                        abilities.push("arms");
+                        console.log("arms");
+                        if(has("wings")){
+                            if(has("paws")){
+                                survivor_medium.src = "./img/wings_paws_horns_amoeba.png";
+                            } else if(has("legs")){
+                                survivor_medium.src = "./img/wings_legs_horns_amoeba.png";
+                            }
+                        } else if(has("gills")){
+                            if(has("paws")){
+                                survivor_medium.src = "./img/gills_paws_tail_amoeba.png";
+                            } else if(has("legs")){
+                                survivor_medium.src = "./img/gills_legs_tail_amoeba.png";
+                            }
+                        }
+                    } else if(x>=590 && x<=628){
+                        abilities.push("legs");
+                        console.log("legs");
+                        if(has("wings")){
+                            survivor_medium.src = "./img/wings_legs_amoeba.png";
+                        } else if(has("gills")){
+                            survivor_medium.src = "./img/gills_legs_amoeba.png";
+                        }
+                    }
+                }
+            }, 200);
+        }
 	   
 	    if (size == 128) {
 	        level == 2;
@@ -530,9 +614,19 @@ start.addEventListener("click", function(){
                     if(x>=510 && x<=560){
                         abilities.push("arms");
                         console.log("arms");
+                        if(has("wings")){
+                            survivor_medium.src = "./img/wings_paws_amoeba.png";
+                        } else if(has("gills")){
+                            survivor_medium.src = "./img/gills_paws_amoeba.png";
+                        }
                     } else if(x>=590 && x<=628){
                         abilities.push("legs");
                         console.log("legs");
+                        if(has("wings")){
+                            survivor_medium.src = "./img/wings_legs_amoeba.png";
+                        } else if(has("gills")){
+                            survivor_medium.src = "./img/gills_legs_amoeba.png";
+                        }
                     }
                 }
             }, 200);
@@ -571,7 +665,7 @@ start.addEventListener("click", function(){
             //update survivor
             ctx.beginPath();
             ctx.fillStyle = "#8C3449";
-            ctx.arc(250, 430, size, 0, 2*Math.PI);
+            //ctx.arc(250, 430, size, 0, 2*Math.PI);
             ctx.fill();
             ctx.closePath();
 	    health += 10;
