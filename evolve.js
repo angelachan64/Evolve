@@ -351,6 +351,15 @@ function wiggle(){
         }
     }
 
+    //FOR BOSS FIGHT
+    if (size > 0) {
+        ctx.fillStyle = "#C34CFE";
+        ctx.beginPath();
+        ctx.arc(300,430,50,0,2*Math.PI);
+        ctx.fill();
+        ctx.closePath();
+    }
+
     ctx.fillStyle = color;
     ctx.beginPath();
     if(size<64){
@@ -645,6 +654,11 @@ start.addEventListener("click", function(){
         y -= rect.top;
       
         //console.log("" + x + ", " + y);
+
+        //FOR BOSS FIGHT
+        if (size > 0) {
+            
+        }
       
         if(x>=510 && x<=610){
             if(y>=10 && y<=110){
@@ -695,3 +709,14 @@ start.addEventListener("click", function(){
     }, false);
     }
 });
+
+if (size > 0) {
+    ctx.fillStyle="#000000";
+    ctx.font="15px century gothic";
+    ctx.fillText("You have reached the", 510, 360);
+    ctx.fillText("boss level stage!", 510, 380);
+    ctx.fillText("Use your abilities to beat him!:",510,400);
+    ctx.fillText("WINGS",510,420);
+    ctx.fillText("ARMS",510,440);
+    ctx.fillText("TAIL",510,460);
+}
