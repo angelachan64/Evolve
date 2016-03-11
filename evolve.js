@@ -172,9 +172,9 @@ var r = c.getBoundingClientRect();
 restart.addEventListener("click", function(){
     ctx.clearRect(0,0,700,500);
     health = 200;
-    ep = 200;
+    ep = 1000;
     points = 0;
-    evopoints = "200 evolution points";
+    evopoints = "1000 evolution points";
     //updateEP();
     //updateH();
     //updateP();
@@ -742,7 +742,7 @@ start.addEventListener("click", function(){
     }, 50);
     
     /* KEEP THIS */
-    /*
+    
     chance = setInterval(function(){
         if(Math.random()*100 <= 20){
             var ran = Math.random()*100;
@@ -789,20 +789,10 @@ start.addEventListener("click", function(){
                     ctx.fillText("protection and the predator", 510, 420);
                     ctx.fillText("ate you.", 510, 440);
                 }
-            } else{
-                ctx.fillStyle = "#660066";
-                ctx.beginPath();            
-                ctx.arc(x,y,30,0,2*Math.PI);
-                ctx.fill();
-                ctx.closePath();
-                ctx.fillText("BOSS FIGHTTTT",510,380);
-                for (i=0; i<abilities.length; i++) {
-                    if abilities[i] == "wings" 
-                }
-            }
+            } 
         }
     }, 1000);
-    */
+    
     
     c.addEventListener("mousedown", function(){
         var x = event.x;
