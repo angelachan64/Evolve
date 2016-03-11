@@ -46,6 +46,10 @@ var health = 200; //health
 var points = 0; //green bar
 var ep = 1000;
 var evopoints = "" + ep + " evolution points";
+
+//boss properties
+var size = 100;
+var health = 400;
 /*                                                                          */
 /*                                _                                         */  
 /*                               | |                                        */  
@@ -660,7 +664,13 @@ start.addEventListener("click", function(){
 
         //FOR BOSS FIGHT
         if (size > 0) {
-            
+            if (x>=510 && x<=630) {
+                if (y>=400 && y<=420) {
+                    ctx.fillStyle="#000000";
+                    ctx.font="15px century gothic";
+                    ctx.fillText("WINGS", 510, 480);
+                }
+            }
         }
       
         if(x>=510 && x<=610){
