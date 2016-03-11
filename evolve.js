@@ -40,11 +40,11 @@ var allTrees = [];
 
 //amoeba properties:
 var abilities = []; //e.g. wings, legs, etc.
-var size = 62;
+var size = 32;
 var level = 0;
 var health = 200; //health 
 var points = 0; //green bar
-var ep = 1000;
+var ep = 200;
 var evopoints = "" + ep + " evolution points";
 /*                                                                          */
 /*                                _                                         */  
@@ -352,7 +352,7 @@ function wiggle(){
     }
 
     //FOR BOSS FIGHT
-    if (size > 0) {
+    if (size >= 256) {
         ctx.fillStyle = "#C34CFE";
         ctx.beginPath();
         ctx.arc(300,430,50,0,2*Math.PI);
@@ -668,7 +668,7 @@ start.addEventListener("click", function(){
         }
         if(points<200){
             if(points+bushes*0.5 < 200){
-                points+=bushes*5;
+                points+=bushes*0.5;
             } else{
                 console.log("here");
                 points = 200;
@@ -679,9 +679,9 @@ start.addEventListener("click", function(){
     }, 50);
     
     /* KEEP THIS */
-    /*
+    
     chance = setInterval(function(){
-        if(Math.random()*100 <= 20){
+        if(Math.random()*100 <= 2){
             var ran = Math.random()*100;
             console.log("event!");
             ctx.fillStyle = "#FFFFFF";
@@ -726,7 +726,7 @@ start.addEventListener("click", function(){
                     ctx.fillText("protection and the predator", 510, 420);
                     ctx.fillText("ate you.", 510, 440);
                 }
-            } else{
+            } /*else{
                 ctx.fillStyle = "#660066";
                 ctx.beginPath();            
                 ctx.arc(x,y,30,0,2*Math.PI);
@@ -736,10 +736,10 @@ start.addEventListener("click", function(){
                 for (i=0; i<abilities.length; i++) {
                     if abilities[i] == "wings" 
                 }
-            }
+            }*/
         }
     }, 1000);
-    */
+    
     
     c.addEventListener("mousedown", function(){
         var x = event.x;
@@ -807,7 +807,7 @@ start.addEventListener("click", function(){
     }
 });
 
-if (size > 0) {
+if (size >= 256) {
     ctx.fillStyle="#000000";
     ctx.font="15px century gothic";
     ctx.fillText("You have reached the", 510, 360);
