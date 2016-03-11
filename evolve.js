@@ -356,6 +356,7 @@ function wiggle(){
     }
 
     //FOR BOSS FIGHT
+    /*
     if (size > 0) {
         ctx.fillStyle = "#C34CFE";
         ctx.beginPath();
@@ -363,6 +364,7 @@ function wiggle(){
         ctx.fill();
         ctx.closePath();
     }
+    */
 
     ctx.fillStyle = color;
     ctx.beginPath();
@@ -757,6 +759,7 @@ start.addEventListener("click", function(){
         //console.log("" + x + ", " + y);
 
         //FOR BOSS FIGHT
+        /*
         if (size > 0) {
             if (x>=510 && x<=630) {
                 if (y>=400 && y<=420) {
@@ -766,6 +769,7 @@ start.addEventListener("click", function(){
                 }
             }
         }
+        */
       
         if(x>=510 && x<=610){
             if(y>=10 && y<=110){
@@ -817,6 +821,8 @@ start.addEventListener("click", function(){
     }
 });
 
+//FOR BOSS FIGHT
+/*
 if (size > 0) {
     ctx.fillStyle="#000000";
     ctx.font="15px century gothic";
@@ -827,3 +833,4 @@ if (size > 0) {
     ctx.fillText("ARMS",510,440);
     ctx.fillText("TAIL",510,460);
 }
+*/
