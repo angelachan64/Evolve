@@ -7,6 +7,7 @@ var bush = new Image();
 var smallbush = new Image();
 var survivor = new Image();
 var survivor_medium = new Image();
+var boss = new Image();
 
 //source files for images
 smallbush.src = "./img/berry.png";
@@ -14,6 +15,7 @@ tree.src = "./img/tree.png";
 survivor.src = "./img/survivor.png";
 rock.src = "./img/rock.png";
 survivor_medium.src = "./img/amoeba.png";
+boss.src = ".img/king_amoeba.png"
 
 var restart = document.getElementById("restart");
 var start = document.getElementById("start");
@@ -355,17 +357,6 @@ function wiggle(){
         }
     }
 
-    //FOR BOSS FIGHT
-    /*
-    if (size > 0) {
-        ctx.fillStyle = "#C34CFE";
-        ctx.beginPath();
-        ctx.arc(300,430,50,0,2*Math.PI);
-        ctx.fill();
-        ctx.closePath();
-    }
-    */
-
     ctx.fillStyle = color;
     ctx.beginPath();
     if(size<64){
@@ -443,25 +434,30 @@ function select() {
     y -= rect.top;
       
     //console.log("" + x + ", " + y);
-          
-    if(y>=475 && y<=490){
-        if(x>=510 && x<=560){
-            abilities.push("wings");
-            console.log("wings");
-            color = "#98D4FF";
-            ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(508,360,230,200);
-            survivor_medium.src = "./img/wings_amoeba.png";
-            c.removeEventListener("mousedown", select, 200);
-        } else if(x>=590 && x<=628){
-            abilities.push("gills")
-            console.log("gills");
-            color="#00CC99";
-            ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(508,360,230,200);
-            survivor_medium.src = "/img/gills_amoeba.png";
-            c.removeEventListener("mousedown", select, 200);
+    if (abilities.length < 1) {
+        if(y>=475 && y<=490){
+            if(x>=510 && x<=560){
+                abilities.push("wings");
+                console.log("wings");
+                color = "#98D4FF";
+                ctx.fillStyle="#FFFFFF";
+                ctx.fillRect(508,360,230,200);
+                survivor_medium.src = "./img/wings_amoeba.png";
+                c.removeEventListener("mousedown", select);
+            } else if(x>=590 && x<=628){
+                abilities.push("gills")
+                console.log("gills");
+                color="#00CC99";
+                ctx.fillStyle="#FFFFFF";
+                ctx.fillRect(508,360,230,200);
+                survivor_medium.src = "./img/gills_amoeba.png";
+                c.removeEventListener("mousedown", select);
+            }
         }
+    } else {
+        ctx.fillStyle="#000000";
+        ctx.font="15px century gothic";
+        ctx.fillText("You already chose an evol!",510,380);
     }
 }
 
@@ -534,8 +530,58 @@ start.addEventListener("click", function(){
             console.log("died");
             clearInterval(chance);
         }
+
+
+        //FOR BOSS FIGHT
+        if (size >= 300) {
+            ctx.drawImage(boss,350,430,size,size);
+            ctx.fillStyle="#FFFFFF";
+            ctx.fillRect(508,360,230,200);
+            ctx.fillStyle="#000000";
+            ctx.font="15px century gothic";
+            ctx.fillText("You have reached the", 510, 360);
+            ctx.fillText("boss level stage!", 510, 380);
+            ctx.fillText("Use your abilities to beat him!:",510,400);
+            var y = 420;
+            for (i in abilities) {
+                ctx.fillText(abilities[i],510,y);
+                y += 20
+            }   
+            var x = event.x;
+            var y = event.y;
+    
+            var rect = c.getBoundingClientRect();
         
-        if(size>=256){
+            x -= rect.left;
+            y -= rect.top;
+            if (y>=400 && y<=420) {
+                if (x>=510 && x<=530) {
+                    ctx.fillStyle="#000000";
+                    ctx.font="15px century gothic";
+                    ctx.fillText("You defeated the boss", 510, 480);
+                    ctx.fillText("with your" + abiltiies[0],510,500);
+                }
+            }
+            if (y>=420 && y<=440) {
+                if (x>=510 && x<=530) {
+                    ctx.fillStyle="#000000";
+                    ctx.font="15px century gothic";
+                    ctx.fillText("You defeated the boss", 510, 480);
+                    ctx.fillText("with your" + abiltiies[1],510,500);
+                }
+            }
+            if (y>=440 && y<=460) {
+                if (x>=510 && x<=530) {
+                    ctx.fillStyle="#000000";
+                    ctx.font="15px century gothic";
+                    ctx.fillText("You defeated the boss", 510, 480);
+                    ctx.fillText("with your" + abiltiies[2],510,500);
+                }
+            }
+        }
+
+        
+        if(size>=256 && size <= 300){
             ctx.fillStyle="#FFFFFF";
 	        ctx.fillRect(508,360,230,200);
 	        ctx.fillStyle="#000000";
@@ -556,33 +602,38 @@ start.addEventListener("click", function(){
                 y -= rect.top;
       
                 //console.log("" + x + ", " + y);
-          
-                if(y>=475 && y<=490){
-                    if(x>=510 && x<=560){
-                        abilities.push("arms");
-                        console.log("arms");
-                        if(has("wings")){
-                            if(has("paws")){
-                                survivor_medium.src = "./img/wings_paws_horns_amoeba.png";
-                            } else if(has("legs")){
-                                survivor_medium.src = "./img/wings_legs_horns_amoeba.png";
+                if (abilities.length < 3) {
+                    if(y>=475 && y<=490){
+                        if(x>=510 && x<=560){
+                            abilities.push("arms");
+                            console.log("arms");
+                                if(has("wings")){
+                                if(has("paws")){
+                                    survivor_medium.src = "./img/wings_paws_horns_amoeba.png";
+                                } else if(has("legs")){
+                                    survivor_medium.src = "./img/wings_legs_horns_amoeba.png";
+                                }
+                            } else if(has("gills")){
+                                if(has("paws")){
+                                    survivor_medium.src = "./img/gills_paws_tail_amoeba.png";
+                                } else if(has("legs")){
+                                    survivor_medium.src = "./img/gills_legs_tail_amoeba.png";
+                                }
                             }
-                        } else if(has("gills")){
-                            if(has("paws")){
-                                survivor_medium.src = "./img/gills_paws_tail_amoeba.png";
-                            } else if(has("legs")){
-                                survivor_medium.src = "./img/gills_legs_tail_amoeba.png";
+                        } else if(x>=590 && x<=628){
+                            abilities.push("legs");
+                            console.log("legs");
+                            if(has("wings")){
+                                survivor_medium.src = "./img/wings_legs_amoeba.png";
+                            } else if(has("gills")){
+                                survivor_medium.src = "./img/gills_legs_amoeba.png";
                             }
-                        }
-                    } else if(x>=590 && x<=628){
-                        abilities.push("legs");
-                        console.log("legs");
-                        if(has("wings")){
-                            survivor_medium.src = "./img/wings_legs_amoeba.png";
-                        } else if(has("gills")){
-                            survivor_medium.src = "./img/gills_legs_amoeba.png";
                         }
                     }
+                } else {
+                    ctx.fillStyle="#000000";
+                    ctx.font="15px century gothic";
+                    ctx.fillText("You already chose an evol!",510,380);
                 }
             }, 200);
         }
@@ -590,6 +641,7 @@ start.addEventListener("click", function(){
 	    if (size == 128) {
 	        level == 2;
 	    }
+
 	    if (size >= 128 && size <= 256) {
 	        ctx.fillStyle="#FFFFFF";
 	        ctx.fillRect(508,360,230,200);
@@ -611,25 +663,30 @@ start.addEventListener("click", function(){
                 y -= rect.top;
       
                 //console.log("" + x + ", " + y);
-          
-                if(y>=475 && y<=490){
-                    if(x>=510 && x<=560){
-                        abilities.push("arms");
-                        console.log("arms");
-                        if(has("wings")){
-                            survivor_medium.src = "./img/wings_paws_amoeba.png";
-                        } else if(has("gills")){
-                            survivor_medium.src = "./img/gills_paws_amoeba.png";
-                        }
-                    } else if(x>=590 && x<=628){
-                        abilities.push("legs");
-                        console.log("legs");
-                        if(has("wings")){
-                            survivor_medium.src = "./img/wings_legs_amoeba.png";
-                        } else if(has("gills")){
-                            survivor_medium.src = "./img/gills_legs_amoeba.png";
+                if (abilities.length < 2) {
+                    if(y>=475 && y<=490){
+                        if(x>=510 && x<=560){
+                            abilities.push("arms");
+                            console.log("arms");
+                            if(has("wings")){
+                                survivor_medium.src = "./img/wings_paws_amoeba.png";
+                            } else if(has("gills")){
+                                survivor_medium.src = "./img/gills_paws_amoeba.png";
+                            }
+                        } else if(x>=590 && x<=628){
+                            abilities.push("legs");
+                            console.log("legs");
+                            if(has("wings")){
+                                survivor_medium.src = "./img/wings_legs_amoeba.png";
+                            } else if(has("gills")){
+                                survivor_medium.src = "./img/gills_legs_amoeba.png";
+                            }
                         }
                     }
+                } else {
+                    ctx.fillStyle="#000000";
+                    ctx.font="15px century gothic";
+                    ctx.fillText("You already chose an evol!",510,380);
                 }
             }, 200);
         }
@@ -757,19 +814,6 @@ start.addEventListener("click", function(){
         y -= rect.top;
       
         //console.log("" + x + ", " + y);
-
-        //FOR BOSS FIGHT
-        /*
-        if (size > 0) {
-            if (x>=510 && x<=630) {
-                if (y>=400 && y<=420) {
-                    ctx.fillStyle="#000000";
-                    ctx.font="15px century gothic";
-                    ctx.fillText("WINGS", 510, 480);
-                }
-            }
-        }
-        */
       
         if(x>=510 && x<=610){
             if(y>=10 && y<=110){
@@ -820,17 +864,3 @@ start.addEventListener("click", function(){
     }, false);
     }
 });
-
-//FOR BOSS FIGHT
-/*
-if (size > 0) {
-    ctx.fillStyle="#000000";
-    ctx.font="15px century gothic";
-    ctx.fillText("You have reached the", 510, 360);
-    ctx.fillText("boss level stage!", 510, 380);
-    ctx.fillText("Use your abilities to beat him!:",510,400);
-    ctx.fillText("WINGS",510,420);
-    ctx.fillText("ARMS",510,440);
-    ctx.fillText("TAIL",510,460);
-}
-*/
