@@ -1,40 +1,69 @@
 var c = document.getElementById("area");
 var ctx = c.getContext("2d");
+//visuals images
 var tree = new Image();
 var rock = new Image();
 var bush = new Image();
-var health = 200; 
-var points = 0;
+var smallbush = new Image();
+var survivor = new Image();
+var survivor_medium = new Image();
+
+//source files for images
+smallbush.src = "./img/berry.png";
+tree.src = "./img/tree.png";
+survivor.src = "./img/survivor.png";
+rock.src = "./img/rock.png";
+survivor_medium.src = "./img/amoeba.png";
+
+var restart = document.getElementById("restart");
 var start = document.getElementById("start");
 var anim;
 var progress;
 var chance;
-var ep = 200;
-var evopoints = "" + ep + " evolution points";
-var numb = 0;
 var protection = false;
+
+//properties of environment
+var bushes = 0;
+var rocks = 0;
 var trees = 0;
+
 var prey = 0;
+var preyX = [];
 var color = "#8C3449";
 var right = true;
 var up = true;
 var pos = 0;
 var vert = 0;
 var go = false;
-
+var treeExists;
+var allTrees = [];
 
 //amoeba properties:
 var abilities = []; //e.g. wings, legs, etc.
 var size = 32;
 var level = 0;
+var health = 200; //health 
+var points = 0; //green bar
+var ep = 200;
+var evopoints = "" + ep + " evolution points";
+/*                                                                          */
+/*                                _                                         */  
+/*                               | |                                        */  
+/*                       ___  ___| |_ _   _ _ __                            */
+/*                      / __|/ _ \ __| | | | '_ \                           */  
+/*                      \__ \  __/ |_| |_| | |_) |                          */
+/*                      |___/\___|\__|\__,_| .__/                           */
+/*                                         | |                              */
+/*                                         |_|                              */  
+/*                                                                          */
+/*                                                                          */
+/*                                                                          */
 
-/* 
-function evolve(){
-    size++;
-    stage++;
-    color = colors[stage];
-};
-*/
+function addTree(){
+    var newTree = 10 + (trees * 35);
+    allTrees.push(newTree);
+}
+
 
 function has(s){
     for (var i=0;i<abilities.length;i++){
@@ -44,6 +73,7 @@ function has(s){
     }
     return false;
 }
+
 
 
 function updateH(){
@@ -80,10 +110,13 @@ function setup(){
     ctx.beginPath();
     
     /* survivor */
-    ctx.fillStyle = "#8C3449";
-    ctx.arc(250, 430, size, 0, 2*Math.PI);
-    ctx.fill();
-    ctx.closePath();
+    survivor.src="./img/survivor.png";
+    survivor.onload = function(){
+        //ctx.fillStyle = "#8C3449";
+        ctx.beginPath();
+        ctx.drawImage(survivor,250-(size/2),430-(size/2),size,size);
+        ctx.closePath();
+    }
     
     /* bars */
     ctx.strokeRect(10, 10, 202, 15);
@@ -111,6 +144,7 @@ function setup(){
     bush.onload = function(){
         ctx.drawImage(bush, 510, 10);
     };  
+
     
     /* prices */
     ctx.beginPath();
@@ -127,40 +161,44 @@ var ycor = 430;
 
 var r = c.getBoundingClientRect();
 
-//makes amoeba wiggle 
-/*
-function wiggle(e){
-    ctx.fillStyle = ("#8C3449");
-    if (xcor <= r.left + 5){
-	xcor += 2;
-	ycor += (Math.random(3) - Math.random(3));
-    } else if (xcor >= r.right - 5){
-	xcor -= 2;
-	ycor += (Math.random(3)- Math.random(3));
-    } else if (ycor <= r.bottom + 5){
-	xcor += (Math.random(3)- Math.random(3));
-	ycor += 2;
-    } else if (ycor >= r.top - 5){
-	xcor += (Math.random(3)- Math.random(3));
-	ycor -= 2;
-    } else {
-	xcor += (Math.random(3)- Math.random(3));
-	ycor += (Math.random(3)- Math.random(3));
-    }
-    ctx.arc(xcor, ycor, size, 0, 2*Math.PI);
-    ctx.fill();
-};
 
-*/
+
+restart.addEventListener("click", function(){
+    ctx.clearRect(0,0,700,500);
+    health = 200;
+    ep = 200;
+    points = 0;
+    evopoints = "200 evolution points";
+    //updateEP();
+    //updateH();
+    //updateP();
+    trees = 0;
+    rocks = 0;
+    bushes = 0;
+    //ctx.clearRect(0,0,700,500)
+    setup();
+    ctx.beginPath();
+    ctx.drawImage(survivor,250-(size/2),430-(size/2),size,size);
+    ctx.closePath();
+});
+
+
+/*                                                                          */
+/*                                                         _                */
+/*                                                        | |               */      
+/*           _ __ ___   _____   _____ _ __ ___   ___ _ __ | |_              */
+/*          | '_ ` _ \ / _ \ \ / / _ \ '_ ` _ \ / _ \ '_ \| __|             */
+/*          | | | | | | (_) \ V /  __/ | | | | |  __/ | | | |_              */  
+/*          |_| |_| |_|\___/ \_/ \___|_| |_| |_|\___|_| |_|\__|             */
+/*                                                                          */ 
+/*                                                                          */
+/*                                                                          */
+
+
 
 //updated wiggle, accounts for possible wings
 function wiggle(){
-    /*
-    ctx.fillStyle = "#71FF71";
-    ctx.beginPath();
-    ctx.arc(xcor, ycor, size, 0, Math.PI);
-    ctx.fill();
-    */
+
     var r = c.getBoundingClientRect();
     
     
@@ -171,32 +209,13 @@ function wiggle(){
     ctx.closePath();
     
     ctx.clearRect(230,0,269,81)
-    
-    /*
-    if (xcor <= 498 - size){
-        xcor += 2;
-    } else if (xcor >= size){
-        xcor -= 2;
-    } else {
-        xcor += (Math.random(5)- Math.random(5));
-    }
 
-    if (has("wings")){
-        if (ycor <= 500 - size){
-            ycor += 2;
-        } else if (ycor >= size){
-            ycor -= 2;
-        } else {
-            ycor += (Math.random(5) - Math.random(5));
-        }
-    }
-    */
     
     if (has("wings")){
         if(up){
             if(right){
                 if(pos<5){
-                    console.log(pos);
+                    //console.log(pos);
                     pos++;
                     wiggleRight();
                 } else{
@@ -250,7 +269,6 @@ function wiggle(){
     
     else if(right){
         if(pos<5){
-            console.log(pos);
             pos++;
             wiggleRight();
         } else{
@@ -260,7 +278,6 @@ function wiggle(){
         }
     } else{
         if(pos>-5){
-            console.log(pos);
             pos--;
             wiggleLeft();
         } else{
@@ -270,12 +287,79 @@ function wiggle(){
         }
     }
 
+    
+    if (trees > 0) {
+        var i = trees;
+        console.log(i);
+        var x; var y;
+        
+        for (i; i > 0; i--) {
+            x = -2 + (i * 35);
+            y = 320;
+            console.log("tree" + i);
+            ctx.fillStyle = "#663300";
+            ctx.beginPath();
+            ctx.drawImage(tree,x+3,y+3, 120,120);
+            ctx.closePath();
+        }
+    } 
+
+    if (bushes > 0) {
+        var i = bushes;
+        var x; var y;
+        for (i; i > 0; i--){
+            x = 10 + (i * 35);
+            y = 430;
+            ctx.fillStyle = "#89D862";
+            ctx.beginPath();
+            ctx.drawImage(smallbush,x-16,y-16,32,32);
+            ctx.closePath();
+        }
+    }
+    
+    if (rocks > 0) {
+        x = 240;
+        y = 370;
+        console.log("" + x + ", " + y);
+        ctx.fillStyle = "#565F61";
+        ctx.beginPath();
+        ctx.drawImage(rock, 320,y+10,160,110);
+        ctx.fill();
+        ctx.closePath();
+    }
+    
+    if (trees>0 && prey <=15) {
+	    prey += Math.random(2) + trees;
+	}
+    
+    if (prey > 15) {
+        x = Math.floor((Math.random() * 470) + 15);
+	   	while((x>=220 && x<=280)){
+            x = Math.floor((Math.random() * 470) + 15);
+	   	}
+	   	preyX.push(x);
+	   	prey = 0;
+    }
+    
+    if (preyX.length > 0) {
+        for (var item in preyX) {
+            ctx.fillStyle = "#C34CFE";
+            ctx.beginPath();
+            ctx.arc(preyX[item],430,2,0,2*Math.PI);
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
 
     ctx.fillStyle = color;
     ctx.beginPath();
-    ctx.arc(xcor, ycor, size, 0, 2*Math.PI);
-    ctx.fill();
+    if(size<64){
+        ctx.drawImage(survivor,xcor-(size/2),ycor-(size/2),size,size);
+    } else{
+        ctx.drawImage(survivor_medium,xcor-(size/2),ycor-(size/2),size,size);
+    }
     ctx.closePath();
+    
 }
 
 //takes x and y coordinates of targeted prey and wiggles towards it
@@ -318,6 +402,18 @@ function wiggleRight(){
 
 window.onload = setup();
 
+/*                                                                          */
+/*                                                                          */
+/*                       _           _                                      */                    
+/*                      | |         (_)                                     */
+/*                   ___| |__   ___  _  ___ ___  ___                        */
+/*                  / __| '_ \ / _ \| |/ __/ _ \/ __|                       */
+/*                 | (__| | | | (_) | | (_|  __/\__ \                       */
+/*                  \___|_| |_|\___/|_|\___\___||___/                       */
+/*                                                                          */
+/*                                                                          */
+/*                                                                          */
+
 function select() {
     var x = event.x;
     var y = event.y;
@@ -331,11 +427,12 @@ function select() {
           
     if(y>=475 && y<=490){
         if(x>=510 && x<=560){
-            abilities.push("wings")
+            abilities.push("wings");
             console.log("wings");
             color = "#98D4FF";
             ctx.fillStyle="#FFFFFF";
             ctx.fillRect(508,360,230,200);
+            survivor.src = "./img/wings_amoeba.png";
             c.removeEventListener("mousedown", select, 200);
         } else if(x>=590 && x<=628){
             abilities.push("gills")
@@ -346,6 +443,12 @@ function select() {
             c.removeEventListener("mousedown", select, 200);
         }
     }
+}
+
+
+
+function endgame(){
+    
 }
 
 
@@ -364,6 +467,13 @@ start.addEventListener("click", function(){
         ctx.clearRect(10,10,202,15);
         if(health>0){
             health = health - 1;
+        } if(bushes+health>200){
+            health = 200;
+            ep += (bushes+health)-200;
+            evopoints = "" + ep + " evolution points";
+            updateEP();
+        } else{
+            health += bushes;
         }
         updateH();
         
@@ -372,26 +482,9 @@ start.addEventListener("click", function(){
             console.log("died");
             clearInterval(chance);
         }
-	    if (trees>0) {
-	        prey += Math.random(2) + trees;
-	        if (prey >= 15) {
-		    x = Math.floor((Math.random() * 470) + 15);
-		    while((x>=220 && x<=280)){
-                x = Math.floor((Math.random() * 470) + 15);
-		    }
-		    y = 430;
-		    console.log("" + x + ", " + y);
-		    ctx.fillStyle = "#C34CFE";
-            ctx.beginPath();
-            ctx.arc(x,y,2,0,2*Math.PI);
-            ctx.fill();
-            ctx.closePath();
-		    prey = 0;
-	        }
-	    }
-	    
-	    if (size >= 32) {
-	        level += 1;
+	   
+	    if (size >= 128) {
+	        level == 2;
 	    }
 	    if (level == 999994) {
 	        ctx.fillStyle="#FFFFFF";
@@ -417,10 +510,10 @@ start.addEventListener("click", function(){
           
                 if(y>=475 && y<=490){
                     if(x>=510 && x<=560){
-                        abilities.push("arms")
+                        abilities.push("arms");
                         console.log("arms");
                     } else if(x>=590 && x<=628){
-                        abilities.push("legs")
+                        abilities.push("legs");
                         console.log("legs");
                     }
                 }
@@ -428,7 +521,7 @@ start.addEventListener("click", function(){
         }
 	    
 	    if (size >= 64) {
-	        level == 2;
+	        level == 1;
 	    }
 	    if (level == 1) {
 	        ctx.fillStyle="#FFFFFF";
@@ -452,11 +545,11 @@ start.addEventListener("click", function(){
         ctx.clearRect(10,35,202,15);
         if(health==0){
             clearInterval(progress);
-        }
+        } console.log(points);
         if(points>=200){
             points = 0;
             console.log("level up");
-            if(size<32){
+            if(size<64){
                 size++;
             }
             //update survivor
@@ -468,12 +561,18 @@ start.addEventListener("click", function(){
 	    health += 10;
         }
         if(points<200){
-            points+=numb*0.5;
+            if(points+bushes*0.5 < 200){
+                points+=bushes*0.5;
+            } else{
+                console.log("here");
+                points = 200;
+            }
         }
         updateP();
 	wiggle();
     }, 50);
     
+    /* KEEP THIS */
     /*
     chance = setInterval(function(){
         if(Math.random()*100 <= 20){
@@ -550,66 +649,47 @@ start.addEventListener("click", function(){
         if(x>=510 && x<=610){
             if(y>=10 && y<=110){
                 console.log("bush!");
-                if(ep >= 50){
+                if(ep >= 50 && bushes<13){
                     ep -= 50;
                     evopoints = "" + ep + " evolution points";
                     updateEP();
-		            numb++;
-                    x = Math.floor((Math.random() * 470) + 15);
-                    while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 470) + 15);
-                    }
+                    bushes++;
+                    x = 10 + (bushes * 35);
                     y = 430;
-                    console.log("" + x + ", " + y);
                     ctx.fillStyle = "#89D862";
                     ctx.beginPath();
-                    ctx.arc(x,y,16,0,2*Math.PI);
-                    ctx.fill();
                     ctx.closePath();
                 }
             } else if(y>=120 && y<=220){
                 console.log("rock!");
-                if(ep>=100){
-                    ep -= 100;
-                    evopoints = "" + ep + " evolution points";
-                    updateEP();
-		    protection = true;
-		    x = Math.floor((Math.random() * 470) + 15);
-                    while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 470) + 15);
+                if (rocks == 0) {
+                    if(ep>=100){
+                        ep -= 100;
+                        evopoints = "" + ep + " evolution points";
+                        updateEP();
+	    	            protection = true;
+    		            rocks++;
+    		            x = 240;
+                        y = 370;
+                        console.log("" + x + ", " + y);
                     }
-                    y = 410;
-                    console.log("" + x + ", " + y);
-                    ctx.fillStyle = "#565F61";
-                    ctx.beginPath();
-                    ctx.rect(x,y,25,25);
-                    ctx.fill();
-                    ctx.closePath();
+                } else {
+                    ctx.fillStyle = "#262626";
+                    ctx.font = "15px century gothic";
+                    ctx.fillText("You already have a rock!", 510, 360);
+                    ctx.fillText("(You can only have one)", 510, 380);
                 }
             } else if(y>=240 && y<=310){
                 console.log("tree!");
-		            if(ep>=150){
-                    ep -= 150;
-                    evopoints = "" + ep + " evolution points";
-                    updateEP();
-		            trees++;
-		            x = Math.floor((Math.random() * 470) + 15);
-                    while((x>=220 && x<=280)){
-                        x = Math.floor((Math.random() * 470) + 15);
-                    }
-                    y = 380;
-                    console.log("" + x + ", " + y);
-                    ctx.fillStyle = "#663300";
-                    ctx.beginPath();
-                    ctx.rect(x,y,25,60);
-                    ctx.fill();
-                    ctx.closePath();
-                    ctx.beginPath();
-		            ctx.fillStyle = "#00B200";
-                    ctx.arc(x+12,y,25,0,2*Math.PI);
-                    ctx.fill();
-                    ctx.closePath();
-                }
+		            if(ep>=150 && trees < 10){
+                        ep -= 150;
+                        evopoints = "" + ep + " evolution points";
+                        updateEP();
+    		            trees++;
+	    	            x = -2 + (trees * 35);
+                        y = 380;
+                        console.log("" + x + ", " + y);
+                  }
             }
         }
     }, false);
