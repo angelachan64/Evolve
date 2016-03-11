@@ -40,11 +40,11 @@ var allTrees = [];
 
 //amoeba properties:
 var abilities = []; //e.g. wings, legs, etc.
-var size = 32;
+var size = 62;
 var level = 0;
 var health = 200; //health 
 var points = 0; //green bar
-var ep = 200;
+var ep = 1000;
 var evopoints = "" + ep + " evolution points";
 /*                                                                          */
 /*                                _                                         */  
@@ -92,7 +92,7 @@ function updateP(){
 }
 
 function updateEP(){
-    ctx.clearRect(10,60,480,15);
+    ctx.clearRect(10,60,480,18);
     ctx.fillStyle = "#262626";
     ctx.font = "15px century gothic"
     ctx.fillText(evopoints, 10, 75);
@@ -356,7 +356,11 @@ function wiggle(){
     if(size<64){
         ctx.drawImage(survivor,xcor-(size/2),ycor-(size/2),size,size);
     } else{
-        ctx.drawImage(survivor_medium,xcor-(size/2),ycor-(size/2),size,size);
+        if(has("wings")){
+            ctx.drawImage(survivor_medium,xcor-(32),ycor-(32),80,64);
+        } else{
+            ctx.drawImage(survivor_medium,xcor-(32),ycor-(32),64,64);
+        }
     }
     ctx.closePath();
     
@@ -432,7 +436,7 @@ function select() {
             color = "#98D4FF";
             ctx.fillStyle="#FFFFFF";
             ctx.fillRect(508,360,230,200);
-            survivor.src = "./img/wings_amoeba.png";
+            survivor_medium.src = "./img/wings_amoeba.png";
             c.removeEventListener("mousedown", select, 200);
         } else if(x>=590 && x<=628){
             abilities.push("gills")
@@ -440,6 +444,7 @@ function select() {
             color="#00CC99";
             ctx.fillStyle="#FFFFFF";
             ctx.fillRect(508,360,230,200);
+            survivor_medium.src = "/img/gills_amoeba.png";
             c.removeEventListener("mousedown", select, 200);
         }
     }
@@ -483,10 +488,10 @@ start.addEventListener("click", function(){
             clearInterval(chance);
         }
 	   
-	    if (size >= 128) {
+	    if (size == 128) {
 	        level == 2;
 	    }
-	    if (level == 999994) {
+	    if (size >= 128 && size <= 256) {
 	        ctx.fillStyle="#FFFFFF";
 	        ctx.fillRect(508,360,230,200);
 	        ctx.fillStyle="#000000";
@@ -520,10 +525,10 @@ start.addEventListener("click", function(){
             }, 200);
         }
 	    
-	    if (size >= 64) {
+	    if (size >= 64 && size<=128) {
 	        level == 1;
 	    }
-	    if (level == 1) {
+	    if (size >= 64 && size<=128) {
 	        ctx.fillStyle="#FFFFFF";
 	        ctx.fillRect(508,360,230,200);
 	        ctx.fillStyle="#000000";
@@ -549,9 +554,7 @@ start.addEventListener("click", function(){
         if(points>=200){
             points = 0;
             console.log("level up");
-            if(size<64){
-                size++;
-            }
+            size++;
             //update survivor
             ctx.beginPath();
             ctx.fillStyle = "#8C3449";
@@ -562,7 +565,7 @@ start.addEventListener("click", function(){
         }
         if(points<200){
             if(points+bushes*0.5 < 200){
-                points+=bushes*0.5;
+                points+=bushes*5;
             } else{
                 console.log("here");
                 points = 200;
